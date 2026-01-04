@@ -3,7 +3,7 @@ import logging
 from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
 import os
-from TrainingsHandler import router as router_trainings
+from MainHandler import router as router_trainings
 
 load_dotenv()
 
