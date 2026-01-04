@@ -3,7 +3,8 @@ import logging
 from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
 import os
-from MainHandler import router as router_trainings
+from MainHandler import router as router_main
+from MusicHandler import router as router_music
 
 load_dotenv()
 
@@ -14,7 +15,8 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 async def main():
-    dp.include_router(router_trainings)
+    dp.include_router(router_main)
+    dp.include_router(router_music)
     await dp.start_polling(bot)
 
 
