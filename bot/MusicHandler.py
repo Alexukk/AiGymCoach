@@ -5,6 +5,7 @@ from aiogram.types import Message, CallbackQuery
 from Keyboards import *
 from FSM import *
 from RequestsAPI import *
+from MUSIC_PLAYLISTS import *
 
 router = Router()
 
@@ -17,9 +18,6 @@ async def music_menu(message: Message):
                          "Choose between options below", reply_markup=musicENKb, parse_mode='HTML')
 
 
-@router.message(F.text == "Playlists")
-async def playlists(message: Message):
-    await message.answer("Some text here with links..")
 
 
 @router.message(F.text == "Get suggested music")
@@ -39,22 +37,19 @@ async def suggested_music_text(message, state: FSMContext):
 @router.message(SuggestMusic.confirm)
 async def suggested_music_confirmation(message: Message, state: FSMContext):
     if message.text == "✅Confirm✅":
-        # 1. Получаем данные сразу здесь
         data = await state.get_data()
         user_text = data.get("text")
 
-        # 2. Информируем пользователя
         await message.answer("Analyzing your mood... Please wait 🎧", reply_markup=mainENkb)
 
         # 3. Вызываем ИИ
         ans = await get_music_recommendation(user_text)
 
         if ans:
-            # Текст с моноширинным шрифтом для копирования (тег <code>)
             response_text = (
                 f"<b>AI Selection:</b>\n\n"
                 f"The playlist that fits your mood: <code>{ans['name']}</code>\n"
-                f"<i>Click the name to copy or use the button below.</i>"
+                f"<i>Click the name to copy or use the button below to open it in Youtube music.</i>"
             )
 
             # Красивая кнопка-ссылка
@@ -67,9 +62,19 @@ async def suggested_music_confirmation(message: Message, state: FSMContext):
         else:
             await message.answer("Sorry, I couldn't find a playlist. Try again later.")
 
-        # 4. Сбрасываем состояние
         await state.clear()
 
     else:
         await state.clear()
         await message.answer("Canceled successfully", reply_markup=mainENkb)
+
+
+
+@router.message(F.text == "Playlists")
+async def playlists_btn_ans(message: Message):
+    text = "<b>Choose between these playlists and Eather copy name or press 'Youtube Music' to open it in the YT music app.</b>\n"
+
+    for name, url in PLAYLIST_DATA.items():
+        text += f"<code>{name}</code>  |  <i><a href='{url}'>Youtube Music</a></i>\n"
+
+    await message.answer(text, parse_mode='HTML', disable_web_page_preview=True, reply_markup=mainENkb)

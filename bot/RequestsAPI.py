@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from groq import AsyncGroq # Библиотека для Groq
+from groq import AsyncGroq
 from MUSIC_PLAYLISTS import *
 
 
@@ -40,9 +40,9 @@ async def get_music_recommendation(user_text):
                 return {"name": key, "url": PLAYLIST_DATA[key]}
 
 
-        return {"name": "Deep Techno", "url": PLAYLIST_DATA["Deep Techno"]}
+        return {"name": "Chill Phonk", "url": PLAYLIST_DATA["Chill Phonk"]}
 
     except Exception as e:
         print(f"Groq API Error: {e}")
 
-        return {"name": "Deep Techno", "url": PLAYLIST_DATA["Deep Techno"]}
+        return {"name": "Chill Phonk", "url": PLAYLIST_DATA["Chill Phonk"]}

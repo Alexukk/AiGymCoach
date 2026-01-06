@@ -7,6 +7,7 @@
     <list default="true" id="7de170c2-e2dc-4f76-8a5e-fd4540a7102f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/MUSIC_PLAYLISTS.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/MUSIC_PLAYLISTS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/MusicHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/MusicHandler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/RequestsAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/RequestsAPI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
