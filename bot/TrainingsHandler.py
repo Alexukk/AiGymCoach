@@ -1,7 +1,7 @@
 from  aiogram import F, Router
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 from Keyboards import *
 from bot.FSM import GetPersonalPlan
@@ -36,5 +36,20 @@ async def start_muscle(callback: CallbackQuery, state: FSMContext):
         f"<b>Target: {muscle_name}</b>\n\n"
         f"Please describe your feelings, mood, energy level, and any health limits.\n"
         f"<i>Example: 'Feeling energetic, but have a slight pain in my left wrist.'</i>",
-        parse_mode='HTML'
+        parse_mode='HTML', reply_markup=ReplyKeyboardRemove()
     )
+
+
+@router.message(GetPersonalPlan.feelings)
+async def get_feelings(message, state: FSMContext):
+    user_feelings = message.text
+    await state.set_state(GetPersonalPlan.confirm)
+    await state.update_data(feelings=user_feelings)
+
+    await message.answer(f"<b>Now check all details:</b>\n"
+                         f"<b>Muscle group: {await state.get_value('muscle_group')}</b>"
+                         f"Your feelings: \n"
+                         f"<i>{await state.get_value('feelings')}</i>\n"
+                         f"If everything fine Confirm and proceed in other case Cancel and start from a scratch",
+                         reply_keyboard=confirmENKb, parse_mode='HTML')
+
