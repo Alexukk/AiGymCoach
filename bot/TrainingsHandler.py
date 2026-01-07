@@ -33,23 +33,40 @@ async def start_muscle(callback: CallbackQuery, state: FSMContext):
     await state.update_data(muscle_group=muscle_name)
 
     await callback.message.answer(
-        f"<b>Target: {muscle_name}</b>\n\n"
-        f"Please describe your feelings, mood, energy level, and any health limits.\n"
-        f"<i>Example: 'Feeling energetic, but have a slight pain in my left wrist.'</i>",
-        parse_mode='HTML', reply_markup=ReplyKeyboardRemove()
+        "<b>🏋️ NEW TRAINING SESSION</b>\n"
+        "───────────────────\n"
+        f"<b>Target Muscle:</b> <code>{muscle_name.upper()}</code>\n\n"
+        "<b>What I need from you:</b>\n"
+        "Tell me about your current <b>mood</b>, <b>energy level</b>, and any <b>physical limits</b> or injuries.\n\n"
+        "<b>💡 Example:</b>\n"
+        "<i>«Feeling great and motivated, but I have a slight pain in my left wrist, so avoid heavy presses.»</i>\n"
+        "───────────────────\n"
+        "<b>✍️ Waiting for your description...</b>",
+        parse_mode='HTML',
+        reply_markup=ReplyKeyboardRemove()
     )
 
 
 @router.message(GetPersonalPlan.feelings)
 async def get_feelings(message, state: FSMContext):
-    user_feelings = message.text
+    await state.update_data(feelings=message.text)
     await state.set_state(GetPersonalPlan.confirm)
-    await state.update_data(feelings=user_feelings)
+    data = await state.get_data()
+    muscle = data.get('muscle_group', 'Not selected')
+    feelings = data.get('feelings', 'No description')
 
-    await message.answer(f"<b>Now check all details:</b>\n"
-                         f"<b>Muscle group: {await state.get_value('muscle_group')}</b>"
-                         f"Your feelings: \n"
-                         f"<i>{await state.get_value('feelings')}</i>\n"
-                         f"If everything fine Confirm and proceed in other case Cancel and start from a scratch",
-                         reply_keyboard=confirmENKb, parse_mode='HTML')
+    text = (
+        "<b>📋 Review Your Training Request</b>\n"
+        "───────────────────\n"
+        f"<b>💪 Muscle Group:</b> <code>{muscle}</code>\n"
+        f"<b>🧘 Your State:</b>\n<i>«{feelings}»</i>\n"
+        "───────────────────\n"
+        "<i>If everything is correct, press <b>Confirm</b>.\n"
+        "Otherwise, <b>Cancel</b> to start over.</i>"
+    )
 
+    await message.answer(
+        text,
+        reply_markup=confirmENKb,
+        parse_mode='HTML'
+    )
