@@ -6,4 +6,8 @@ class SuggestMusic(StatesGroup):
     confirm = State()
     receive = State()
 
-
+class GetPersonalPlan(StatesGroup):
+    muscle_group = State()
+    feelings = State()
+    confirm = State()
+    receive = State()
