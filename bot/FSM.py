@@ -8,6 +8,7 @@ class SuggestMusic(StatesGroup):
 
 class GetPersonalPlan(StatesGroup):
     muscle_group = State()
+    duration = State()
     feelings = State()
     confirm = State()
     receive = State()

@@ -26,18 +26,27 @@ STRICT RULES:
    - Coach's Advice: One sentence in <i>italics</i>.
 4. NO CONVERSATION: Start directly with the plan. No "Here is your plan" or "Sure!".
 5. CONTENT: Adapt exercises if the user mentions pain/limits.
+
+STRICT RULE: The total duration of the exercises (including rest) MUST MATCH the user's requested DURATION.
+
+- If duration is < 30 min: Create a High-Intensity Circuit (HIIT).
+- If duration is 30-60 min: Standard bodybuilding split.
+- If duration is > 60 min: Add more volume, advanced supersets, and a longer cool-down.
+
 """
 
-async def Get_Training_plan(user_text, group):
+
+
+async def Get_Training_plan(user_text, group, duration):
     try:
         chat_completion = await client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
                 {"role" : "system", "content" : SYSTEM_PROMPT},
-                {"role" : "system", "content" : f"Chosen muscle group: {group}, User feelings: {user_text}"}
+                {"role" : "system", "content" : f"Chosen muscle group: {group}, User feelings: {user_text}, Expected duration: {duration}"}
             ],
-            temperature=0.0,
-            max_tokens=800
+            temperature=0.5,
+            max_tokens=1500
         )
         return chat_completion.choices[0].message.content
 
