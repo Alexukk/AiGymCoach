@@ -3,6 +3,8 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
+from aiogram.utils.chat_action import ChatActionSender
+
 from Keyboards import *
 from bot.FSM import GetPersonalPlan
 from trainigList import TRAININGS_INFO
@@ -75,10 +77,13 @@ async def get_feelings(message, state: FSMContext):
 @router.message(GetPersonalPlan.confirm)
 async def confirm_plan_request(message, state: FSMContext):
     if message.text == "✅Confirm✅":
-        data = await state.get_data()
+        await message.answer("⏱️Wait a little, AI is working now⏱️")
+        async with ChatActionSender.typing(bot=message.bot, chat_id=message.chat.id):
+            data = await state.get_data()
+
         await state.clear()
         AI_RESPONSE = await Get_Training_plan(data["feelings"], data["muscle_group"])
-        await message.answer(AI_RESPONSE, reply_markup=mainENkb)
+        await message.answer(AI_RESPONSE, reply_markup=mainENkb, parse_mode='HTML')
         return
 
     await state.clear()
