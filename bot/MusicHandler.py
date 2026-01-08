@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from Keyboards import *
 from FSM import *
-from RequestsAPI import *
+from MusicRequestsAPI import *
 from MUSIC_PLAYLISTS import *
 
 router = Router()

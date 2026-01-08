@@ -6,6 +6,7 @@ from aiogram.fsm.context import FSMContext
 from Keyboards import *
 from bot.FSM import GetPersonalPlan
 from trainigList import TRAININGS_INFO
+from TrainingsRequestsAPI import Get_Training_plan
 
 
 router = Router()
@@ -70,3 +71,18 @@ async def get_feelings(message, state: FSMContext):
         reply_markup=confirmENKb,
         parse_mode='HTML'
     )
+
+@router.message(GetPersonalPlan.confirm)
+async def confirm_plan_request(message, state: FSMContext):
+    if message.text == "✅Confirm✅":
+        data = await state.get_data()
+        await state.clear()
+        AI_RESPONSE = await Get_Training_plan(data["feelings"], data["muscle_group"])
+        await message.answer(AI_RESPONSE, reply_markup=mainENkb)
+        return
+
+    await state.clear()
+    await message.answer("<b>Canceled</b>", reply_markup=mainENkb, parse_mode='HTML')
+
+
+
