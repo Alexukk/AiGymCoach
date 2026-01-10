@@ -12,3 +12,12 @@ class GetPersonalPlan(StatesGroup):
     feelings = State()
     confirm = State()
     receive = State()
+
+
+class Register(StatesGroup):
+    weight = State()
+    height = State()
+    age = State()
+    experience = State()
+    injuries = State() # Skippable
+    description = State()
