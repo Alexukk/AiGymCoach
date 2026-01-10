@@ -6,6 +6,7 @@ import os
 from MainHandler import router as router_main
 from MusicHandler import router as router_music
 from TrainingsHandler import router as router_trainings
+from RegisterHandler import router as router_register
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ async def main():
     dp.include_router(router_main)
     dp.include_router(router_music)
     dp.include_router(router_trainings)
+    dp.include_router(router_register)
     await dp.start_polling(bot)
 
 
@@ -28,4 +30,3 @@ if __name__ == '__main__':
         asyncio.run(main())
     except Exception as e:
         print(e)
- 

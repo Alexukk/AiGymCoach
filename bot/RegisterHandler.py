@@ -45,7 +45,7 @@ async def register_injuries(message, state: FSMContext):
 async def register_injuries(message, state: FSMContext):
     await state.update_data(injuries=message.text)
     await state.set_state(Register.description)
-    await message.anwer("Now enter <b>details</b> about you that might be useful for plan generation,"
+    await message.answer("Now enter <b>details</b> about you that might be useful for plan generation,"
                         " <i>preferences, loved exersice etc.</i>", parse_mode='HTML')
 
 @router.message(Register.description)
