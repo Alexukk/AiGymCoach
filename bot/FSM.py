@@ -21,3 +21,4 @@ class Register(StatesGroup):
     experience = State()
     injuries = State() # Skippable
     description = State()
+    save_data = State()
