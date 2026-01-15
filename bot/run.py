@@ -8,6 +8,7 @@ from MusicHandler import router as router_music
 from TrainingsHandler import router as router_trainings
 from RegisterHandler import router as router_register
 
+
 load_dotenv()
 
 TOKEN = os.getenv("BOT_TOKEN")

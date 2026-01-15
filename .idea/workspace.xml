@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7de170c2-e2dc-4f76-8a5e-fd4540a7102f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/bot/Database/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bot/Database/requests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/RegisterHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/RegisterHandler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +25,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -39,9 +44,14 @@
     &quot;Python.MusicHandler.executor&quot;: &quot;Run&quot;,
     &quot;Python.TrainingsHandler.executor&quot;: &quot;Run&quot;,
     &quot;Python.run.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;
+    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="SharedIndexes">
@@ -58,7 +68,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1767534797596</updated>
+      <workItem from="1768317670324" duration="67000" />
+      <workItem from="1768317864957" duration="33000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
