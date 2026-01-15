@@ -1,5 +1,5 @@
-from models import async_session
-from models import User
+from .models import async_session
+from .models import User
 from sqlalchemy import select
 
 

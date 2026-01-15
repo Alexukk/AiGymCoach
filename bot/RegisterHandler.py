@@ -5,6 +5,7 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.chat_action import ChatActionSender
 from FSM import Register
+from Database.requests import *
 
 router = Router()
 
@@ -48,12 +49,18 @@ async def register_injuries(message, state: FSMContext):
     await message.answer("Now enter <b>details</b> about you that might be useful for plan generation,"
                         " <i>preferences, loved exersice etc.</i>", parse_mode='HTML')
 
-@router.message(Register.description)
-async def register_description(message, state: FSMContext):
-    await state.update_data(experience=message.text)
-    await state.set_state(Register.save_data)
-    await message.answer("Thank you, give me a second to proceed the data..")
 
-@router.message(Register.save_data)
-async def register_save_data(message, state: FSMContext):
-    pass
+@router.message(Register.description)
+async def register_description(message: Message, state: FSMContext):
+    await state.update_data(description=message.text)
+
+    data = await state.get_data()
+
+    try:
+        await set_user(message.from_user.id, data)
+        await message.answer("<b>Success!</b> Your profile is saved.", parse_mode='HTML')
+    except Exception as e:
+        await message.answer("Something went wrong during saving...")
+        print(f"Error: {e}")
+
+    await state.clear()
