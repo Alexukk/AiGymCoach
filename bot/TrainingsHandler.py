@@ -4,6 +4,7 @@ from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.chat_action import ChatActionSender
+from Database.requests import get_user_data
 
 from Keyboards import *
 from bot.FSM import GetPersonalPlan
@@ -86,11 +87,24 @@ async def confirm_plan_request(message: Message, state: FSMContext):
                                           parse_mode='HTML',
                                           reply_markup=ReplyKeyboardRemove())
 
+        user_db_data = await get_user_data(message.from_user.id)
+
+        # 2. Формируем расширенный контекст для ИИ
+        profile_context = "Not registered"
+        if user_db_data:
+            profile_context = (
+                f"Age: {user_db_data.age}, Weight: {user_db_data.weight}kg, "
+                f"Height: {user_db_data.height}cm, Experience: {user_db_data.experience} months, "
+                f"Injuries: {user_db_data.injuries}, Bio: {user_db_data.description}"
+            )
+
         async with ChatActionSender.typing(bot=message.bot, chat_id=message.chat.id):
+            # 3. Передаем profile_context в функцию (нужно добавить этот аргумент в API)
             AI_RESPONSE = await Get_Training_plan(
                 user_text=data["feelings"],
                 group=data["muscle_group"],
-                duration=data["duration"]
+                duration=data["duration"],
+                user_profile=profile_context  # <--- Новый аргумент
             )
 
         await status_msg.delete()
