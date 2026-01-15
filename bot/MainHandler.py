@@ -9,6 +9,8 @@ router = Router()
 @router.message(CommandStart())
 async def start(message: Message):
     await message.reply(f"<b>Hello user!</b>\n"
+                        f"<b>Please enter <code>Register</code> to fully register and get as personalized plan as possible</b>\n"
+                        f"Or just proceed without registration."
                         f"few commands you might need:"
                         f"1. Choose 'Info' button to get tutorial trough bot\n"
                         f"2. Choose 'Trainings' to get your personalized plan\n"

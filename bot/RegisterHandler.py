@@ -6,6 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.utils.chat_action import ChatActionSender
 from FSM import Register
 from Database.requests import *
+from bot.Keyboards import mainENkb
 
 router = Router()
 
@@ -58,9 +59,9 @@ async def register_description(message: Message, state: FSMContext):
 
     try:
         await set_user(message.from_user.id, data)
-        await message.answer("<b>Success!</b> Your profile is saved.", parse_mode='HTML')
+        await message.answer("<b>Success!</b> Your profile is saved.", parse_mode='HTML', reply_markup=mainENkb)
     except Exception as e:
-        await message.answer("Something went wrong during saving...")
+        await message.answer("Something went wrong during saving...", reply_markup=mainENkb)
         print(f"Error: {e}")
 
     await state.clear()
