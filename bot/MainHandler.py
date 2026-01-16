@@ -29,6 +29,7 @@ async def info(message: Message):
         "2️⃣ Select your <b>target muscle group</b>\n"
         "3️⃣ Describe your <b>mood & energy level</b>\n\n"
         "✨ <i>The AI will instantly craft a structured plan tailored just for you.</i>\n\n"
+        "💎<i>If you want experience our bot's best abilities please complete registration by sending: <code>Register</code> to the bot and answering few questions</i>\n"
         "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n"
         "<b>Powered by:</b> <a href='https://github.com/Alexukk'>Alexukk</a>",
         parse_mode='HTML',

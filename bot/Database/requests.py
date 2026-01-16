@@ -1,6 +1,6 @@
 from .models import async_session
 from .models import User
-from sqlalchemy import select
+from sqlalchemy import select, Update
 
 
 async def set_user(tg_id: int, data: dict):
@@ -28,3 +28,11 @@ async def get_user_data(tg_id: int) -> User | None:
             return user
 
         return None
+
+
+async def update_user_field(tg_id: int, field_name: str, value: str):
+    async with async_session() as session:
+        user = await session.scalar(select(User).where(User.tg_id == tg_id))
+        if user:
+            setattr(user, field_name, value)
+            await session.commit()
