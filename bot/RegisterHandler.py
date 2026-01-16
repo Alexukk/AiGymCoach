@@ -56,6 +56,8 @@ async def register_description(message: Message, state: FSMContext):
     await state.update_data(description=message.text)
 
     data = await state.get_data()
+    user_lang = message.from_user.language_code
+    data['language'] = user_lang
 
     try:
         await set_user(message.from_user.id, data)

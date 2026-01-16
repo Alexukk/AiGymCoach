@@ -21,6 +21,7 @@ class User(Base):
     experience: Mapped[str] = mapped_column(String(200))
     injuries: Mapped[str] = mapped_column(String(500), nullable=True)
     description: Mapped[str] = mapped_column(String(1000), nullable=True)
+    language: Mapped[str] = mapped_column(String(5), default='en')
 
 
 async def async_main():
