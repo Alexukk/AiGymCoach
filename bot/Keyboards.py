@@ -3,8 +3,8 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 from trainigList import *
 
 mainENkb = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text="Trainings"), KeyboardButton(text="Music")],
-    [KeyboardButton(text="Info")]
+    [KeyboardButton(text="🏋️‍♀️ Trainings"), KeyboardButton(text="🎧 Music")],
+    [KeyboardButton(text="ℹ️ Info"), KeyboardButton(text="👤 My Profile")]
 ])
 
 
@@ -30,3 +30,25 @@ async def trainingsKbEn():
         kb.add(InlineKeyboardButton(text=val, callback_data=f"training:{key}"))
     return kb.adjust(2).as_markup()
 
+
+def edit_profile_kb():
+    builder = InlineKeyboardBuilder()
+
+    fields = {
+        "Weight": "weight",
+        "Height": "height",
+        "Age": "age",
+        "Experience": "experience",
+        "Injuries": "injuries",
+        "Description": "description",
+        "Language": "language",
+    }
+
+    for text, column in fields.items():
+        builder.add(InlineKeyboardButton(
+            text=f"Edit {text}",
+            callback_data=f"change_{column}")
+        )
+
+    builder.adjust(2)
+    return builder.as_markup()

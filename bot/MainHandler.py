@@ -19,7 +19,7 @@ async def start(message: Message):
                         parse_mode='HTML')
 
 
-@router.message(F.text == "Info")
+@router.message(F.text == "ℹ️ Info")
 async def info(message: Message):
     await message.reply(
         "<b>🦾 AI Training Assistant</b>\n\n"

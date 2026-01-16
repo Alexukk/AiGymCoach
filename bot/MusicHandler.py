@@ -10,7 +10,7 @@ from MUSIC_PLAYLISTS import *
 router = Router()
 
 
-@router.message(F.text == "Music")
+@router.message(F.text == "🎧 Music")
 async def music_menu(message: Message):
     await message.answer("<b>Music</b>\n"
                          "Wanna get list of all playlists? \n"

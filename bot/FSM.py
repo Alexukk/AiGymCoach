@@ -22,3 +22,6 @@ class Register(StatesGroup):
     injuries = State() # Skippable
     description = State()
     save_data = State()
+
+class EditProfile(StatesGroup):
+    waiting_for_value = State()
