@@ -36,7 +36,7 @@ async def show_profile(message: Message):
         f"🏅 <b>Experience:</b> {user_data.experience} month\n"
         f"🤕 <b>Injuries:</b> {user_data.injuries or 'None'}\n"
         f"📝 <b>Bio:</b> {user_data.description or 'Empty'}\n"
-        f"🌐 <b>Language:</b> {user_data.language.upper()}\n\n"
+        f"🌐 <b>Language:</b> {'🇺🇦 Ukrainian' if user_data.language == 'uk' else '🇺🇸 English'}\n\n"
         f"<i>Select a button below to update your information:</i>"
     )
 
@@ -51,6 +51,10 @@ async def start_edit_field(callback: CallbackQuery, state: FSMContext):
     await state.update_data(editing_column=column_name)
     await state.set_state(EditProfile.waiting_for_value)
 
+    if column_name.lower() == "language":
+        await callback.message.answer(f"Choose an option below:", reply_markup=languageKB)
+        return
+
     await callback.message.answer(f"Enter new value for <b>{column_name} </b>{message_additivesEN[column_name]}:", parse_mode='HTML')
     await callback.answer()
 
@@ -60,6 +64,12 @@ async def save_edited_value(message: Message, state: FSMContext):
     user_data = await state.get_data()
     column_name = user_data.get("editing_column")
     new_value = message.text
+
+    if message.text == "🇺🇸":
+            mew_value="en"
+    elif message.text == "🇺🇦":
+        new_value="uk"
+
 
     await update_user_field(message.from_user.id, column_name, new_value)
 

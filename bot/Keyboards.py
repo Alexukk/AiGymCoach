@@ -23,6 +23,9 @@ durationKb = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text="90"), KeyboardButton(text="120")]
 ])
 
+languageKB = ReplyKeyboardMarkup(keyboard=[
+    [KeyboardButton(text="🇺🇦")], [KeyboardButton(text='🇺🇸')]
+])
 
 async def trainingsKbEn():
     kb = InlineKeyboardBuilder()
