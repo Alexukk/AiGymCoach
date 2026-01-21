@@ -20,6 +20,13 @@ async def check_user_exists(tg_id: int):
 
         return False
 
+async def get_user_language(tg_id: int):
+    async with async_session() as session:
+        user = await session.scalar(select(User).where(User.tg_id == tg_id))
+        if user:
+            return user.language
+        return False
+
 
 async def get_user_data(tg_id: int) -> User | None:
     async with async_session() as session:
