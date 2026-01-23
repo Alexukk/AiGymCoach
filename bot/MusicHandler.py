@@ -7,14 +7,14 @@ from FSM import *
 from MusicRequestsAPI import *
 from MUSIC_PLAYLISTS import *
 from bot.Texts.MusicTexts import MUSIC_HANDLER_TEXT
-from LanguageUtils import get_text
+from LanguageUtils import get_text, get_user_details
 
 router = Router()
 
 
 @router.message(F.text == "🎧 Music")
 async def music_menu(message: Message):
-    await message.answer(await get_text(message.from_user.id,"music_menu", message.from_user.language_code, MUSIC_HANDLER_TEXT), reply_markup=musicENKb, parse_mode='HTML')
+    await message.answer(await get_text( await get_user_details(message),"music_menu", MUSIC_HANDLER_TEXT), reply_markup=musicENKb, parse_mode='HTML')
 
 
 
@@ -22,15 +22,14 @@ async def music_menu(message: Message):
 @router.message(F.text == "Get suggested music")
 async def suggested_music(message, state: FSMContext):
     await state.set_state(SuggestMusic.text)
-    await message.answer("If you want to get an personalized music suggestion\n"
-                         "<b>Describe your feelings with only 1 message and enjoy your music</b>",
+    await message.answer(await get_text( await get_user_details(message),"suggest_intro", MUSIC_HANDLER_TEXT),
                          parse_mode='HTML')
 
 @router.message(SuggestMusic.text)
 async def suggested_music_text(message, state: FSMContext):
     await state.update_data(text=message.text)
     await state.set_state(SuggestMusic.confirm)
-    await message.answer("Check your text and if everything is fine Confirm text", reply_markup=confirmENKb)
+    await message.answer(await get_text( await get_user_details(message),"check_text", MUSIC_HANDLER_TEXT), reply_markup=confirmENKb)
 
 
 @router.message(SuggestMusic.confirm)
@@ -39,39 +38,36 @@ async def suggested_music_confirmation(message: Message, state: FSMContext):
         data = await state.get_data()
         user_text = data.get("text")
 
-        await message.answer("Analyzing your mood... Please wait 🎧", reply_markup=mainENkb)
+        await message.answer(await get_text( await get_user_details(message),"analyzing", MUSIC_HANDLER_TEXT), reply_markup=mainENkb)
 
-        # 3. Вызываем ИИ
         ans = await get_music_recommendation(user_text)
 
         if ans:
-            response_text = (
-                f"<b>AI Selection:</b>\n\n"
-                f"The playlist that fits your mood: <code>{ans['name']}</code>\n"
-                f"<i>Click the name to copy or use the button below to open it in Youtube music.</i>"
-            )
+            template = await get_text(await get_user_details(message), "ai_selection", MUSIC_HANDLER_TEXT)
 
-            # Красивая кнопка-ссылка
+            response_text = template.format(name=ans['name'])
+
+
             from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
             kb = InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="🎵 Listen Now", url=ans['url'])]
+                [InlineKeyboardButton(text=await get_text( await get_user_details(message),"listen_btn", MUSIC_HANDLER_TEXT), url=ans['url'])]
             ])
 
             await message.answer(response_text, reply_markup=kb, parse_mode='HTML')
         else:
-            await message.answer("Sorry, I couldn't find a playlist. Try again later.")
+            await message.answer(await get_text( await get_user_details(message),"error_find", MUSIC_HANDLER_TEXT))
 
         await state.clear()
 
     else:
         await state.clear()
-        await message.answer("Canceled successfully", reply_markup=mainENkb)
+        await message.answer(await get_text( await get_user_details(message),"canceled", MUSIC_HANDLER_TEXT), reply_markup=mainENkb)
 
 
 
 @router.message(F.text == "Playlists")
 async def playlists_btn_ans(message: Message):
-    text = "<b>Choose between these playlists and Eather copy name or press 'Youtube Music' to open it in the YT music app.</b>\n"
+    text = await get_text( await get_user_details(message),"playlist_header", MUSIC_HANDLER_TEXT)
 
     for name, url in PLAYLIST_DATA.items():
         text += f"<code>{name}</code>  |  <i><a href='{url}'>Youtube Music</a></i>\n"
