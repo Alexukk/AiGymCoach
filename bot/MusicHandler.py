@@ -6,16 +6,15 @@ from Keyboards import *
 from FSM import *
 from MusicRequestsAPI import *
 from MUSIC_PLAYLISTS import *
+from bot.Texts.MusicTexts import MUSIC_HANDLER_TEXT
+from LanguageUtils import get_text
 
 router = Router()
 
 
 @router.message(F.text == "🎧 Music")
 async def music_menu(message: Message):
-    await message.answer("<b>Music</b>\n"
-                         "Wanna get list of all playlists? \n"
-                         "Or wanna get suggestion based on your mood?"
-                         "Choose between options below", reply_markup=musicENKb, parse_mode='HTML')
+    await message.answer(await get_text(message.from_user.id,"music_menu", message.from_user.language_code, MUSIC_HANDLER_TEXT), reply_markup=musicENKb, parse_mode='HTML')
 
 
 
