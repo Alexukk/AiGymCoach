@@ -6,38 +6,36 @@ from Database.requests import get_user_data
 from aiogram.fsm.context import FSMContext
 from FSM import EditProfile
 from Database.requests import update_user_field
+from LanguageUtils  import get_text, get_user_details
+from bot.Texts.ProfileTexts import PROFILE_TEXTS
 
 router = Router()
-
-message_additivesEN = {
-        "weight": "in kg",
-        "height": "in cm",
-        "age": "in years",
-        "experience": "in month",
-        "injuries": "Describe all of them with as much details as possible",
-        "description": "Enter all details about you which will help bot improve it's answers",
-        "language": "use EN for english, ES for spanish",
-}
-
 
 
 @router.message(F.text == "👤 My Profile")
 async def show_profile(message: Message):
     user_data = await get_user_data(message.from_user.id)
+    u_details = await get_user_details(message)
+    # Определяем язык для этого конкретного вызова
+    lang = await get_text(u_details, "get_lang_only", {"get_lang_only": {"uk": "uk", "en": "en"}})
 
     if not user_data:
-        return await message.answer("You are not registered yet. Enter <code>Register</code>")
+        return await message.answer(await get_text(u_details, "not_registered", PROFILE_TEXTS))
+
+    # Собираем строки полей динамически
+    f = PROFILE_TEXTS["fields"]
+    m_unit = PROFILE_TEXTS["unit_month"][lang]
 
     profile_text = (
-        f"<b>Your Fitness Profile</b>\n\n"
-        f"⚖️ <b>Weight:</b> {user_data.weight} kg\n"
-        f"📏 <b>Height:</b> {user_data.height} cm\n"
-        f"🎂 <b>Age:</b> {user_data.age}\n"
-        f"🏅 <b>Experience:</b> {user_data.experience} month\n"
-        f"🤕 <b>Injuries:</b> {user_data.injuries or 'None'}\n"
-        f"📝 <b>Bio:</b> {user_data.description or 'Empty'}\n"
-        f"🌐 <b>Language:</b> {'🇺🇦 Ukrainian' if user_data.language == 'uk' else '🇺🇸 English'}\n\n"
-        f"<i>Select a button below to update your information:</i>"
+        f"{PROFILE_TEXTS['profile_header'][lang]}"
+        f"{f['weight'][lang]}: {user_data.weight} kg\n"
+        f"{f['height'][lang]}: {user_data.height} cm\n"
+        f"{f['age'][lang]}: {user_data.age}\n"
+        f"{f['experience'][lang]}: {user_data.experience} {m_unit}\n"
+        f"{f['injuries'][lang]}: {user_data.injuries or PROFILE_TEXTS['none'][lang]}\n"
+        f"{f['description'][lang]}: {user_data.description or PROFILE_TEXTS['empty'][lang]}\n"
+        f"{f['language'][lang]}: {'🇺🇦 Ukrainian' if user_data.language == 'uk' else '🇺🇸 English'}\n"
+        f"{PROFILE_TEXTS['footer'][lang]}"
     )
 
     await message.answer(profile_text, reply_markup=edit_profile_kb(), parse_mode='HTML')
@@ -46,32 +44,44 @@ async def show_profile(message: Message):
 @router.callback_query(F.data.startswith("change_"))
 async def start_edit_field(callback: CallbackQuery, state: FSMContext):
     column_name = callback.data.split("_")[1]
-
+    u_details = await get_user_details(callback)
+    lang = await get_text(u_details, "get_lang_only", {"get_lang_only": {"uk": "uk", "en": "en"}})
 
     await state.update_data(editing_column=column_name)
     await state.set_state(EditProfile.waiting_for_value)
 
     if column_name.lower() == "language":
-        await callback.message.answer(f"Choose an option below:", reply_markup=languageKB)
+        await callback.message.answer(PROFILE_TEXTS["choose_lang"][lang], reply_markup=languageKB)
         return
 
-    await callback.message.answer(f"Enter new value for <b>{column_name} </b>{message_additivesEN[column_name]}:", parse_mode='HTML')
+    # Подставляем название поля и пояснение через .format()
+    field_name = PROFILE_TEXTS["fields"][column_name][lang]
+    additive = ADDITIVES_TEXTS[column_name][lang]
+
+    prompt = PROFILE_TEXTS["enter_new_value"][lang].format(field=field_name, additive=additive)
+
+    await callback.message.answer(prompt, parse_mode='HTML')
     await callback.answer()
 
 
 @router.message(EditProfile.waiting_for_value)
 async def save_edited_value(message: Message, state: FSMContext):
-    user_data = await state.get_data()
-    column_name = user_data.get("editing_column")
+    data = await state.get_data()
+    column_name = data.get("editing_column")
+    u_details = await get_user_details(message)
+
     new_value = message.text
-
-    if message.text == "🇺🇸":
-            mew_value="en"
-    elif message.text == "🇺🇦":
-        new_value="uk"
-
+    if new_value == "🇺🇸":
+        new_value = "en"
+    elif new_value == "🇺🇦":
+        new_value = "uk"
 
     await update_user_field(message.from_user.id, column_name, new_value)
 
+    # Получаем финальный текст подтверждения
+    lang = await get_text(u_details, "get_lang_only", {"get_lang_only": {"uk": "uk", "en": "en"}})
+    field_name = PROFILE_TEXTS["fields"][column_name][lang]
+    success_msg = PROFILE_TEXTS["update_success"][lang].format(field=field_name)
+
     await state.clear()
-    await message.answer(f"✅ Your {column_name} has been updated!", reply_markup=mainENkb)
+    await message.answer(success_msg, reply_markup=mainENkb)
