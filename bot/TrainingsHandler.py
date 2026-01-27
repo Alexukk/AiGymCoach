@@ -32,23 +32,16 @@ async def trainings_start(message: Message):
 async def start_muscle(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     u_details = await get_user_details(callback)
-    lang = u_details[1]
-
-    raw_info = INLINE_KB["muscle_group"][lang]
-    trainings_info_reversed = {int(v): k for k, v in raw_info.items()}
-
+    TRAININGS_INFO = get_TRAININGS()
     group_id = int(callback.data.split(":")[1])
-
-    muscle_name = trainings_info_reversed.get(group_id, "Unknown")
-
+    muscle_name = TRAININGS_INFO[group_id]
     await state.update_data(muscle_group=muscle_name)
     await state.set_state(GetPersonalPlan.feelings)
 
     template = await get_text(u_details, "new_session", TRAININGS_LEXICON)
     await callback.message.answer(
         template.format(muscle=muscle_name.upper()),
-        parse_mode='HTML',
-        reply_markup=ReplyKeyboardRemove()
+        parse_mode='HTML', reply_markup=ReplyKeyboardRemove()
     )
 
 
