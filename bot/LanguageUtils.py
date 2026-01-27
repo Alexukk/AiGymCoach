@@ -21,13 +21,21 @@ async def get_text(user_details, text_details, all_texts):
 async def get_user_details(message):
     return [message.from_user.id,  message.from_user.language_code]
 
+async def get_user_langcode(from_user):
+    lang = await get_user_language(from_user.id)
+    if not lang:
+        lang = from_user.language_code
+
+    return lang
+
 
 
 async def get_keyboard(kb_name: str, language: str):
     if kb_name in INLINE_KB.keys():
         base_dict = INLINE_KB[kb_name]
         Utils = base_dict["UTILS"]
-        return await Inline_Builder(base_dict[language], Utils[language])
+        PREFIX = base_dict["PREFIX"]
+        return await Inline_Builder(base_dict[language], Utils[language], PREFIX)
     else:
         return 0
 

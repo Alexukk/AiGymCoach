@@ -19,6 +19,37 @@ INLINE_KB = {
         "UTILS": {
             "en" : "Edit",
             "uk" : ""
+        },
+        "PREFIX" : "change_"
+    },
+    "muscle_group" : {
+            "en" : {
+                "Chest": "1",
+                "Back": "2",
+                "Legs": "3",
+                "Arms + shoulders": "4",
+                "Chest + triceps": "5",
+                "Back + Biceps": "6",
+                "Full body": "7"
+            },
+            "uk" : {
+                "Груди": "1",
+                "Спина": "2",
+                "Ноги": "3",
+                "Руки + плечі": "4",
+                "Груди + трицепс": "5",
+                "Спина + біцепс": "6",
+                "Весь корпус": "7"
+            },
+            "UTILS": {
+                "en": "",
+                "uk": ""
+            },
+        "PREFIX" : "training:"
         }
-    }
 }
+
+
+
+def get_TRAININGS():
+    return INLINE_KB["muscle_group"]["en"]

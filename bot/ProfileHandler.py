@@ -6,7 +6,7 @@ from Database.requests import get_user_data
 from aiogram.fsm.context import FSMContext
 from FSM import EditProfile
 from Database.requests import update_user_field
-from LanguageUtils  import get_text, get_user_details
+from LanguageUtils import get_text, get_user_details, get_user_langcode
 from bot.Database.requests import get_user_language
 from bot.LanguageUtils import get_keyboard
 from bot.Texts.ProfileTexts import PROFILE_TEXTS, ADDITIVES_TEXTS
@@ -38,10 +38,8 @@ async def show_profile(message: Message):
         f"{f['language'][lang]}: {'🇺🇦 Ukrainian' if user_data.language == 'uk' else '🇺🇸 English'}\n"
         f"{PROFILE_TEXTS['footer'][lang]}"
     )
-    user_lang = await get_user_language(message.from_user.id)
-    if not user_lang:
-        user_lang = message.from_user.language_code
-    await message.answer(profile_text, reply_markup=await get_keyboard("edit_profile", user_lang), parse_mode='HTML')
+    await message.answer(profile_text, reply_markup=await get_keyboard("edit_profile",
+                                                                       await get_user_langcode(message.from_user)), parse_mode='HTML')
     return None
 
 

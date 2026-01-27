@@ -34,37 +34,14 @@ async def trainingsKbEn():
     return kb.adjust(2).as_markup()
 
 
-def edit_profile_kb():
-    builder = InlineKeyboardBuilder()
-
-    fields = {
-        "Weight": "weight",
-        "Height": "height",
-        "Age": "age",
-        "Experience": "experience",
-        "Injuries": "injuries",
-        "Description": "description",
-        "Language": "language",
-    }
-
-    for text, column in fields.items():
-        builder.add(InlineKeyboardButton(
-            text=f"Edit {text}",
-            callback_data=f"change_{column}")
-        )
-
-    builder.adjust(2)
-    return builder.as_markup()
 
 
-
-
-async def Inline_Builder(data: dict, utils: str):
+async def Inline_Builder(data: dict, utils: str, prefix: str):
     builder = InlineKeyboardBuilder()
     for text, column in data.items():
         builder.add(InlineKeyboardButton(
             text=f"{utils} {text}",
-            callback_data=f"change_{column}")
+            callback_data=f"{prefix}{column}")
         )
 
     builder.adjust(2)
