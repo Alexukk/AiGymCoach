@@ -51,5 +51,6 @@ INLINE_KB = {
 
 
 
-def get_TRAININGS():
-    return INLINE_KB["muscle_group"]["en"]
+def get_TRAININGS(lang):
+
+    return INLINE_KB["muscle_group"][lang]
