@@ -7,7 +7,9 @@ from aiogram.fsm.context import FSMContext
 from FSM import EditProfile
 from Database.requests import update_user_field
 from LanguageUtils  import get_text, get_user_details
-from bot.Texts.ProfileTexts import PROFILE_TEXTS
+from bot.Database.requests import get_user_language
+from bot.LanguageUtils import get_keyboard
+from bot.Texts.ProfileTexts import PROFILE_TEXTS, ADDITIVES_TEXTS
 
 router = Router()
 
@@ -16,13 +18,12 @@ router = Router()
 async def show_profile(message: Message):
     user_data = await get_user_data(message.from_user.id)
     u_details = await get_user_details(message)
-    # Определяем язык для этого конкретного вызова
     lang = await get_text(u_details, "get_lang_only", {"get_lang_only": {"uk": "uk", "en": "en"}})
 
     if not user_data:
         return await message.answer(await get_text(u_details, "not_registered", PROFILE_TEXTS))
 
-    # Собираем строки полей динамически
+
     f = PROFILE_TEXTS["fields"]
     m_unit = PROFILE_TEXTS["unit_month"][lang]
 
@@ -37,8 +38,11 @@ async def show_profile(message: Message):
         f"{f['language'][lang]}: {'🇺🇦 Ukrainian' if user_data.language == 'uk' else '🇺🇸 English'}\n"
         f"{PROFILE_TEXTS['footer'][lang]}"
     )
-
-    await message.answer(profile_text, reply_markup=edit_profile_kb(), parse_mode='HTML')
+    user_lang = await get_user_language(message.from_user.id)
+    if not user_lang:
+        user_lang = message.from_user.language_code
+    await message.answer(profile_text, reply_markup=await get_keyboard("edit_profile", user_lang), parse_mode='HTML')
+    return None
 
 
 @router.callback_query(F.data.startswith("change_"))
@@ -54,7 +58,6 @@ async def start_edit_field(callback: CallbackQuery, state: FSMContext):
         await callback.message.answer(PROFILE_TEXTS["choose_lang"][lang], reply_markup=languageKB)
         return
 
-    # Подставляем название поля и пояснение через .format()
     field_name = PROFILE_TEXTS["fields"][column_name][lang]
     additive = ADDITIVES_TEXTS[column_name][lang]
 

@@ -1,4 +1,7 @@
 from Database.requests import get_user_language
+from KeyboardsDICTS import INLINE_KB
+from bot.Keyboards import Inline_Builder
+
 
 async def get_text(user_details, text_details, all_texts):
     id, user_lang = user_details
@@ -17,5 +20,15 @@ async def get_text(user_details, text_details, all_texts):
 
 async def get_user_details(message):
     return [message.from_user.id,  message.from_user.language_code]
+
+
+
+async def get_keyboard(kb_name: str, language: str):
+    if kb_name in INLINE_KB.keys():
+        base_dict = INLINE_KB[kb_name]
+        Utils = base_dict["UTILS"]
+        return await Inline_Builder(base_dict[language], Utils[language])
+    else:
+        return 0
 
 

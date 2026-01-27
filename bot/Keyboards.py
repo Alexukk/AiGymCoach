@@ -55,3 +55,17 @@ def edit_profile_kb():
 
     builder.adjust(2)
     return builder.as_markup()
+
+
+
+
+async def Inline_Builder(data: dict, utils: str):
+    builder = InlineKeyboardBuilder()
+    for text, column in data.items():
+        builder.add(InlineKeyboardButton(
+            text=f"{utils} {text}",
+            callback_data=f"change_{column}")
+        )
+
+    builder.adjust(2)
+    return builder.as_markup()
