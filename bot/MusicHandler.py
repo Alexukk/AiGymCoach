@@ -7,7 +7,8 @@ from FSM import *
 from MusicRequestsAPI import *
 from MUSIC_PLAYLISTS import *
 from bot.Texts.MusicTexts import MUSIC_HANDLER_TEXT
-from LanguageUtils import get_text, get_user_details
+from LanguageUtils import get_text, get_user_details, get_user_langcode
+from  LanguageUtils import get_keyboard
 
 router = Router()
 
@@ -29,12 +30,12 @@ async def suggested_music(message, state: FSMContext):
 async def suggested_music_text(message, state: FSMContext):
     await state.update_data(text=message.text)
     await state.set_state(SuggestMusic.confirm)
-    await message.answer(await get_text( await get_user_details(message),"check_text", MUSIC_HANDLER_TEXT), reply_markup=confirmENKb)
+    await message.answer(await get_text( await get_user_details(message),"check_text", MUSIC_HANDLER_TEXT), reply_markup=await get_keyboard("Confirm", await get_user_langcode(message.from_user)))
 
 
 @router.message(SuggestMusic.confirm)
 async def suggested_music_confirmation(message: Message, state: FSMContext):
-    if message.text == "✅Confirm✅":
+    if message.text == "✅Confirm✅" or message.text == "✅Підтвердити✅":
         data = await state.get_data()
         user_text = data.get("text")
 

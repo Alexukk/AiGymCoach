@@ -1,6 +1,6 @@
 from Database.requests import get_user_language
-from KeyboardsDICTS import INLINE_KB
-from bot.Keyboards import Inline_Builder
+from KeyboardsDICTS import INLINE_KB, REPLY_KB
+from bot.Keyboards import Inline_Builder, Reply_Builder
 
 
 async def get_text(user_details, text_details, all_texts):
@@ -35,8 +35,18 @@ async def get_keyboard(kb_name: str, language: str):
         base_dict = INLINE_KB[kb_name]
         Utils = base_dict["UTILS"]
         PREFIX = base_dict["PREFIX"]
+        if language == "ru":
+            language = "uk"
+        if language not in ["uk", "en"]:
+            language = "en"
         return await Inline_Builder(base_dict[language], Utils[language], PREFIX)
-    else:
-        return 0
+    elif kb_name in REPLY_KB.keys():
+        base_dict = REPLY_KB[kb_name]
+        if language == "ru":
+            language = "uk"
+        if language not in ["uk", "en"]:
+            language = "en"
+        return await Reply_Builder(base_dict[language])
+
 
 

@@ -69,14 +69,17 @@ async def get_duration(message: Message, state: FSMContext):
 
     template = await get_text(u_details, "review_request", TRAININGS_LEXICON)
     text = template.format(muscle=data['muscle_group'], duration=data['duration'], feelings=data['feelings'])
-    await message.answer(text, reply_markup=confirmENKb, parse_mode='HTML')
+    await message.answer(text ,
+                         reply_markup=await get_keyboard("Confirm", await get_user_langcode(message.from_user)),
+                         parse_mode='HTML')
+    return None
 
 
 @router.message(GetPersonalPlan.confirm)
 async def confirm_plan_request(message: Message, state: FSMContext):
     u_details = await get_user_details(message)
 
-    if message.text == "✅Confirm✅":
+    if message.text == "✅Confirm✅" or message.text == "✅Підтвердити✅":
         data = await state.get_data()
 
         status_text = await get_text(u_details, "ai_composing", TRAININGS_LEXICON)

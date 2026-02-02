@@ -21,7 +21,7 @@ async def show_profile(message: Message):
     lang = await get_text(u_details, "get_lang_only", {"get_lang_only": {"uk": "uk", "en": "en"}})
 
     if not user_data:
-        return await message.answer(await get_text(u_details, "not_registered", PROFILE_TEXTS))
+        return await message.answer(await get_text(u_details, "not_registered", PROFILE_TEXTS), parse_mode='HTML')
 
 
     f = PROFILE_TEXTS["fields"]

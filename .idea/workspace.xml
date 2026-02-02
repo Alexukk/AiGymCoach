@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7de170c2-e2dc-4f76-8a5e-fd4540a7102f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/Keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/Keyboards.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/KeyboardsDICTS.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/KeyboardsDICTS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/TrainingsHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/TrainingsHandler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/LanguageUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/LanguageUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/MusicHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/MusicHandler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/ProfileHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/ProfileHandler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/RegisterHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/RegisterHandler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/bot/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,24 +41,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.KeyboardsDICTS.executor": "Run",
-    "Python.MusicHandler.executor": "Run",
-    "Python.TrainingsHandler.executor": "Run",
-    "Python.run.executor": "Run",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "master",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.KeyboardsDICTS.executor&quot;: &quot;Run&quot;,
+    &quot;Python.MusicHandler.executor&quot;: &quot;Run&quot;,
+    &quot;Python.TrainingsHandler.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\User\Desktop\AITgBot\bot\Texts" />

@@ -27,12 +27,6 @@ languageKB = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text="🇺🇦")], [KeyboardButton(text='🇺🇸')]
 ])
 
-async def trainingsKbEn():
-    kb = InlineKeyboardBuilder()
-    for key, val in TRAININGS_INFO.items():
-        kb.add(InlineKeyboardButton(text=val, callback_data=f"training:{key}"))
-    return kb.adjust(2).as_markup()
-
 
 
 
@@ -46,3 +40,12 @@ async def Inline_Builder(data: dict, utils: str, prefix: str):
 
     builder.adjust(2)
     return builder.as_markup()
+
+
+async def Reply_Builder(buttons: list):
+    builder = ReplyKeyboardBuilder()
+    for i in buttons:
+        builder.add(KeyboardButton(text=i))
+
+    builder.adjust(2)
+    return  builder.as_markup()

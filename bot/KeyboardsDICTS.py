@@ -51,6 +51,20 @@ INLINE_KB = {
 
 
 
-def get_TRAININGS(lang):
+def get_TRAININGS(language):
+    if language == "ru":
+        language = "uk"
+    if language not in ["uk", "en"]:
+        language = "en"
+    return INLINE_KB["muscle_group"][language]
 
-    return INLINE_KB["muscle_group"][lang]
+
+
+
+REPLY_KB = {
+    "Confirm" : {
+    "en" : ["✅Confirm✅", "❌Cancel❌"],
+    "uk" : ["✅Підтвердити✅", "❌Відхилити❌"]
+
+    }
+}

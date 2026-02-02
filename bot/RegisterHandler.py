@@ -73,7 +73,7 @@ async def register_description(message: Message, state: FSMContext):
         await message.answer(success_text, parse_mode='HTML', reply_markup=mainENkb)
     except Exception as e:
         error_text = await get_text(u_details, "register_error", REGISTER_HANDLER_TEXT)
-        await message.answer(error_text, reply_markup=mainENkb)
+        await message.answer(error_text, reply_markup=mainENkb, parse_mode='HTML')
         print(f"Error saving user: {e}")
 
     await state.clear()
