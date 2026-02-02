@@ -4,7 +4,7 @@ from aiogram.types import Message
 from FSM import Register
 from Database.requests import set_user
 from bot.Keyboards import mainENkb  # Позже заменим на динамическую
-from LanguageUtils import get_text, get_user_details
+from LanguageUtils import get_text, get_user_details, get_user_langcode, get_keyboard
 from bot.Texts.RegisterTexts import REGISTER_HANDLER_TEXT
 
 router = Router()
@@ -70,10 +70,12 @@ async def register_description(message: Message, state: FSMContext):
     try:
         await set_user(message.from_user.id, data)
         success_text = await get_text(u_details, "register_success", REGISTER_HANDLER_TEXT)
-        await message.answer(success_text, parse_mode='HTML', reply_markup=mainENkb)
+        await message.answer(success_text, parse_mode='HTML', reply_markup=await get_keyboard("MainMenu",
+                        await get_user_langcode(message.from_user)))
     except Exception as e:
         error_text = await get_text(u_details, "register_error", REGISTER_HANDLER_TEXT)
-        await message.answer(error_text, reply_markup=mainENkb, parse_mode='HTML')
+        await message.answer(error_text, reply_markup=await get_keyboard("MainMenu",
+                        await get_user_langcode(message.from_user)), parse_mode='HTML')
         print(f"Error saving user: {e}")
 
     await state.clear()

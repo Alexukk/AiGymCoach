@@ -13,7 +13,7 @@ from  LanguageUtils import get_keyboard
 router = Router()
 
 
-@router.message(F.text == "🎧 Music")
+@router.message(F.text.in_({"🎧 Music", "🎧 Музика"}))
 async def music_menu(message: Message):
     await message.answer(await get_text( await get_user_details(message),"music_menu", MUSIC_HANDLER_TEXT), reply_markup=musicENKb, parse_mode='HTML')
 
@@ -39,7 +39,8 @@ async def suggested_music_confirmation(message: Message, state: FSMContext):
         data = await state.get_data()
         user_text = data.get("text")
 
-        await message.answer(await get_text( await get_user_details(message),"analyzing", MUSIC_HANDLER_TEXT), reply_markup=mainENkb)
+        await message.answer(await get_text( await get_user_details(message),"analyzing", MUSIC_HANDLER_TEXT), reply_markup=await get_keyboard("MainMenu",
+                                                                                                                        await get_user_langcode(message.from_user)))
 
         ans = await get_music_recommendation(user_text)
 
@@ -62,7 +63,8 @@ async def suggested_music_confirmation(message: Message, state: FSMContext):
 
     else:
         await state.clear()
-        await message.answer(await get_text( await get_user_details(message),"canceled", MUSIC_HANDLER_TEXT), reply_markup=mainENkb)
+        await message.answer(await get_text( await get_user_details(message),"canceled", MUSIC_HANDLER_TEXT), reply_markup=await get_keyboard("MainMenu",
+                        await get_user_langcode(message.from_user)))
 
 
 
@@ -73,4 +75,5 @@ async def playlists_btn_ans(message: Message):
     for name, url in PLAYLIST_DATA.items():
         text += f"<code>{name}</code>  |  <i><a href='{url}'>Youtube Music</a></i>\n"
 
-    await message.answer(text, parse_mode='HTML', disable_web_page_preview=True, reply_markup=mainENkb)
+    await message.answer(text, parse_mode='HTML', disable_web_page_preview=True, reply_markup=await get_keyboard("MainMenu",
+                        await get_user_langcode(message.from_user)))

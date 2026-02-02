@@ -101,12 +101,14 @@ async def confirm_plan_request(message: Message, state: FSMContext):
             )
 
         await status_msg.delete()
-        await message.answer(AI_RESPONSE, reply_markup=mainENkb, parse_mode='HTML')
+        await message.answer(AI_RESPONSE, reply_markup=await get_keyboard("MainMenu",
+                        await get_user_langcode(message.from_user)), parse_mode='HTML')
 
         footer_text = await get_text(u_details, "ready_footer", TRAININGS_LEXICON)
         await message.answer(footer_text, parse_mode='HTML')
         await state.clear()
     else:
         cancel_text = await get_text(u_details, "canceled", TRAININGS_LEXICON)
-        await message.answer(cancel_text, reply_markup=mainENkb, parse_mode='HTML')
+        await message.answer(cancel_text, reply_markup=await get_keyboard("MainMenu",
+                        await get_user_langcode(message.from_user)), parse_mode='HTML')
         await state.clear()

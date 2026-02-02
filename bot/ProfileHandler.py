@@ -14,7 +14,7 @@ from bot.Texts.ProfileTexts import PROFILE_TEXTS, ADDITIVES_TEXTS
 router = Router()
 
 
-@router.message(F.text == "👤 My Profile")
+@router.message(F.text.in_({"👤 My Profile", "👤 Мій профіль"}))
 async def show_profile(message: Message):
     user_data = await get_user_data(message.from_user.id)
     u_details = await get_user_details(message)
@@ -79,10 +79,10 @@ async def save_edited_value(message: Message, state: FSMContext):
 
     await update_user_field(message.from_user.id, column_name, new_value)
 
-    # Получаем финальный текст подтверждения
     lang = await get_text(u_details, "get_lang_only", {"get_lang_only": {"uk": "uk", "en": "en"}})
     field_name = PROFILE_TEXTS["fields"][column_name][lang]
     success_msg = PROFILE_TEXTS["update_success"][lang].format(field=field_name)
 
     await state.clear()
-    await message.answer(success_msg, reply_markup=mainENkb)
+    await message.answer(success_msg, reply_markup=await get_keyboard("MainMenu",
+                        await get_user_langcode(message.from_user)))
