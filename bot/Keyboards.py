@@ -1,18 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
-from trainigList import *
 
-mainENkb = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text="🏋️‍♀️ Trainings"), KeyboardButton(text="🎧 Music")],
-    [KeyboardButton(text="ℹ️ Info"), KeyboardButton(text="👤 My Profile")]
-])
-
-
-
-musicENKb = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text="Get suggested music")],
-    [KeyboardButton(text="Playlists")]
-], one_time_keyboard=True)
 
 confirmENKb = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text="✅Confirm✅"), KeyboardButton(text="❌Cancel❌")]
