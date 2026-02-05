@@ -15,12 +15,13 @@ router = Router()
 
 @router.message(F.text.in_({"🎧 Music", "🎧 Музика"}))
 async def music_menu(message: Message):
-    await message.answer(await get_text( await get_user_details(message),"music_menu", MUSIC_HANDLER_TEXT), reply_markup=musicENKb, parse_mode='HTML')
+    await message.answer(await get_text( await get_user_details(message),"music_menu", MUSIC_HANDLER_TEXT),
+                         reply_markup=await get_keyboard("MusicMenu", await get_user_langcode(message.from_user)), parse_mode='HTML')
 
 
 
 
-@router.message(F.text == "Get suggested music")
+@router.message(F.text.in_({"Get suggested music", "Отримати вибір ШІ"}))
 async def suggested_music(message, state: FSMContext):
     await state.set_state(SuggestMusic.text)
     await message.answer(await get_text( await get_user_details(message),"suggest_intro", MUSIC_HANDLER_TEXT),
@@ -68,7 +69,7 @@ async def suggested_music_confirmation(message: Message, state: FSMContext):
 
 
 
-@router.message(F.text == "Playlists")
+@router.message(F.text.in_({"Playlists", "Плейлісти"}))
 async def playlists_btn_ans(message: Message):
     text = await get_text( await get_user_details(message),"playlist_header", MUSIC_HANDLER_TEXT)
 
