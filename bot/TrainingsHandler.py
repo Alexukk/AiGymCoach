@@ -19,7 +19,7 @@ router = Router()
 
 
 
-@router.message(F.text == "🏋️‍♀️ Trainings")
+@router.message(F.text.contains("Trainings") | F.text.contains("Тренування"))
 async def trainings_start(message: Message):
     u_details = await get_user_details(message)
     text = await get_text(u_details, "choose_group", TRAININGS_LEXICON)

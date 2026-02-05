@@ -67,7 +67,7 @@ REPLY_KB = {
     "uk" : ["✅Підтвердити✅", "❌Відхилити❌"]
     },
     "MainMenu" : {
-        "en" : ["🏋️‍♀️ Trainings", "🎧 Music", "ℹ️ Info", "👤 My Profile"],
+        "en" : ["️🏋️‍♀️️ Trainings", "🎧 Music", "ℹ️ Info", "👤 My Profile"],
         "uk" : ["🏋️‍♀️ Тренування", "🎧 Музика", "ℹ️ Інформація", "👤 Мій профіль"]
     }
 }
