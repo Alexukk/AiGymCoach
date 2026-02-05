@@ -8,9 +8,11 @@ SETTING UP:
 
 after copiing project to your mashine use this steps:
 
-1) pip install requirements.txt
-2) Create .env file in bot directory.
-3) Add fields as shown below:
+1) git clone https://github.com/Alexukk/AiGymCoach.git
+2) cd AiGymCoach
+3) pip install requirements.txt
+4) Create .env file in bot directory.
+5) Add fields as shown below:
    GROQ_API_KEY=YOUR_API_GROQ
    BOT_TOKEN=YOUR_TELEGRAM_API
 
